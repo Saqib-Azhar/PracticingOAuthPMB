@@ -20,6 +20,8 @@
         <AssociationConnector Association="Models.FK_dbo_Categories_CategoryType" ManuallyRouted="false" />
         <AssociationConnector Association="Models.FK_dbo_Products_Category" ManuallyRouted="false" />
         <AssociationConnector Association="Models.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Models.ProductsReview" Width="1.5" PointX="7.5" PointY="13" />
+        <AssociationConnector Association="Models.Reviews_Products" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

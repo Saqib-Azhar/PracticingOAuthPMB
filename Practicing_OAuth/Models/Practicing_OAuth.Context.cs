@@ -35,5 +35,6 @@ namespace Practicing_OAuth.Models
         public virtual DbSet<ContactUsData> ContactUsDatas { get; set; }
         public virtual DbSet<PriceQuote> PriceQuotes { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ProductsReview> ProductsReviews { get; set; }
     }
 }

@@ -15,11 +15,11 @@ namespace Practicing_OAuth.Models
     public partial class ProductsReview
     {
         public int Id { get; set; }
+        public Nullable<int> ProductId { get; set; }
+        public string ReviewerName { get; set; }
         public string Review { get; set; }
         public Nullable<int> Rating { get; set; }
-        public Nullable<System.DateTime> ReviewDate { get; set; }
-        public string ReviewerName { get; set; }
-        public Nullable<int> ProductId { get; set; }
+        public Nullable<System.DateTime> CreatedAt { get; set; }
     
         public virtual Product Product { get; set; }
     }

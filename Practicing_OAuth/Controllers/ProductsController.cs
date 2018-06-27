@@ -66,7 +66,7 @@ namespace Practicing_OAuth.Controllers
             {
                 return HttpNotFound();
             }
-            
+            ViewBag.Reviews = db.ProductsReviews.Where(s => s.ProductId == product.Id);
             var Categories = db.Categories.Where(s => s.Id == product.CategoryId).ToList();
             ViewBag.CategoriesList = Categories;
             var Products = db.Products.Where(s => s.CategoryId == product.CategoryId).ToList();
@@ -326,6 +326,24 @@ namespace Practicing_OAuth.Controllers
                 ProductsList = products;
             }
             return View(ProductsList.ToPagedList(Convert.ToInt32(pageNo), Convert.ToInt32(pageSize)));
+        }
+
+        [HttpPost]
+        public ActionResult SubmitReview(FormCollection fc)
+        {
+            var ProductId = Convert.ToInt32(fc["ProductId"]);
+            var Reviewer = fc["ReviewerName"];
+            var Rating = fc["Rating"];
+            var Review = fc["Review"];
+            var ReviewObj = new ProductsReview();
+            ReviewObj.ProductId = ProductId;
+            ReviewObj.Rating = Convert.ToInt32(Rating);
+            ReviewObj.Review = Review;
+            ReviewObj.ReviewerName = Reviewer;
+            ReviewObj.CreatedAt = DateTime.Now;
+            db.ProductsReviews.Add(ReviewObj);
+            db.SaveChanges();
+            return RedirectToAction("Details", "Products", new { ProductId });
         }
     }
 }
