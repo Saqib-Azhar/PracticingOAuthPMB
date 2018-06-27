@@ -331,19 +331,31 @@ namespace Practicing_OAuth.Controllers
         [HttpPost]
         public ActionResult SubmitReview(FormCollection fc)
         {
-            var ProductId = Convert.ToInt32(fc["ProductId"]);
-            var Reviewer = fc["ReviewerName"];
-            var Rating = fc["Rating"];
-            var Review = fc["Review"];
-            var ReviewObj = new ProductsReview();
-            ReviewObj.ProductId = ProductId;
-            ReviewObj.Rating = Convert.ToInt32(Rating);
-            ReviewObj.Review = Review;
-            ReviewObj.ReviewerName = Reviewer;
-            ReviewObj.CreatedAt = DateTime.Now;
-            db.ProductsReviews.Add(ReviewObj);
-            db.SaveChanges();
-            return RedirectToAction("Details", "Products", new { ProductId });
+            try
+            {
+
+                var ProductId = Convert.ToInt32(fc["ProductId"]);
+                var Reviewer = fc["ReviewerName"];
+                var Rating = fc["Rating"];
+                var Review = fc["Review"];
+                var ReviewObj = new ProductsReview();
+                ReviewObj.ProductId = ProductId;
+                ReviewObj.Rating = Convert.ToInt32(Rating);
+                ReviewObj.Review = Review;
+                ReviewObj.ReviewerName = Reviewer;
+                ReviewObj.CreatedAt = DateTime.Now;
+                db.ProductsReviews.Add(ReviewObj);
+                db.SaveChanges();
+                int id = ProductId;
+                return RedirectToAction("Details", "Products", new { id });
+            }
+            catch (Exception)
+            {
+
+                var ProductId = Convert.ToInt32(fc["ProductId"]);
+                int id = ProductId;
+                return RedirectToAction("Details", "Products", new { id });
+            }
         }
     }
 }
