@@ -11,13 +11,15 @@ namespace Practicing_OAuth.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+
     public partial class Product
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public Nullable<decimal> Price { get; set; }
         public string SlugURL { get; set; }
+        [DisplayName("Specifications")]
         public string Description { get; set; }
         public bool IsEnabled { get; set; }
         public string Image1 { get; set; }
@@ -27,6 +29,9 @@ namespace Practicing_OAuth.Models
         public string Image5 { get; set; }
         public Nullable<System.DateTime> UploadedDate { get; set; }
         public int CategoryId { get; set; }
+        [DisplayName("Description")]
+        public string Product_Description { get; set; }
+        public string Specifications { get; set; }
     
         public virtual Category Category { get; set; }
     }

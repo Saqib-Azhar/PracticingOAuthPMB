@@ -40,12 +40,33 @@ namespace Practicing_OAuth.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-          Product product = db.Products.Find(id);
+            Product product = db.Products.Find(id);
             if (product == null)
             {
                 return HttpNotFound();
             }
 
+            //var product = db.Products.Find(id);
+            return RedirectToAction("Item", "Products", new { product.SlugURL });
+        
+      
+        }
+        //[AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
+        //[Route("Products/Product/{slugURL}")]
+        public ActionResult Item(string slugURL)
+        {
+
+            if (slugURL == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Product product = db.Products.FirstOrDefault(s => s.SlugURL == slugURL);
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            
             var Categories = db.Categories.Where(s => s.Id == product.CategoryId).ToList();
             ViewBag.CategoriesList = Categories;
             var Products = db.Products.Where(s => s.CategoryId == product.CategoryId).ToList();
@@ -84,13 +105,15 @@ namespace Practicing_OAuth.Controllers
             ViewBag.CategoryId = new SelectList(db.Categories, "Id", "CategoryName");
             return View();
         }
+        
         [Authorize(Roles = "Admin")]
         // POST: Products/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Price,SlugURL,Description,IsEnabled,Image1,Image2,Image3,Image4,Image5,UploadedDate,CategoryId")] Product product, HttpPostedFileBase Image1, HttpPostedFileBase Image2, HttpPostedFileBase Image3, HttpPostedFileBase Image4, HttpPostedFileBase Image5)
+        [ValidateInput(false)]
+        public ActionResult Create([Bind(Include = "Id,Name,Price,SlugURL,Description,IsEnabled,Image1,Image2,Image3,Image4,Image5,UploadedDate,CategoryId,Product_Description,Specifications")] Product product, HttpPostedFileBase Image1, HttpPostedFileBase Image2, HttpPostedFileBase Image3, HttpPostedFileBase Image4, HttpPostedFileBase Image5)
         {
             if (Image1 != null)
             {
@@ -190,6 +213,10 @@ namespace Practicing_OAuth.Controllers
             if (ModelState.IsValid)
             {
                 product.SlugURL = product.Name.Replace(" ", "_").ToLower();
+                product.SlugURL = product.SlugURL.Replace("-", "_");
+                product.SlugURL = product.SlugURL.Replace("/", "_");
+                product.SlugURL = product.SlugURL.Replace("\\", "_");
+                product.Specifications = product.Description;
                 product.UploadedDate = DateTime.Now;
                 db.Products.Add(product);
                 db.SaveChanges();
@@ -221,7 +248,7 @@ namespace Practicing_OAuth.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Price,SlugURL,Description,IsEnabled,Image1,Image2,Image3,Image4,Image5,UploadedDate,CategoryId")] Product product)
+        public ActionResult Edit([Bind(Include = "Id,Name,Price,SlugURL,Description,IsEnabled,Image1,Image2,Image3,Image4,Image5,UploadedDate,CategoryId,Product_Description,Specifications")] Product product)
         {
             if (ModelState.IsValid)
             {

@@ -1,6 +1,6 @@
 ﻿@model Practicing_OAuth.Models.Product
 @{
-    
+
     var RelatedCategoriesList = ViewBag.CategoriesList as IEnumerable<Practicing_OAuth.Models.Category>;
     var RelatedProductsList = ViewBag.ProductsList as IEnumerable<Practicing_OAuth.Models.Product>;
 }
@@ -141,7 +141,7 @@
                 <div class="row">
 
                     <div class="col-md-3">
-                          
+
 
                         @foreach (var category in RelatedCategoriesList)
                         {
@@ -152,7 +152,7 @@
                                     </div>
                                 </div>
                                 <ul class="c-menu c-arrow-dot c-theme">
-                                    @foreach (var product in RelatedProductsList.Where(s=>s.CategoryId == category.Id))
+                                    @foreach (var product in RelatedProductsList.Where(s => s.CategoryId == category.Id))
                                     {
                                         <li><a href="/Products/Details/@product.Id">@product.Name</a></li>
                                     }
@@ -160,7 +160,7 @@
                             </div>
                         }
 
-                        
+
 
                         <!-- END: CONTENT/BLOG/BLOG-SIDEBAR-1 -->
                     </div>
@@ -208,26 +208,26 @@
 
                                     </div>
                                 }
-                              @if (Model.Image3 != null)
-                              {
-                                <div class="col-md-6">
-                                    <div class="c-content-blog-post-card-1 c-option-2 c-bordered">
-                                        <div class="c-media c-content-overlay">
-                                            <div class="c-overlay-wrapper">
-                                                <div class="c-overlay-content">
+                                @if (Model.Image3 != null)
+                                {
+                                    <div class="col-md-6">
+                                        <div class="c-content-blog-post-card-1 c-option-2 c-bordered">
+                                            <div class="c-media c-content-overlay">
+                                                <div class="c-overlay-wrapper">
+                                                    <div class="c-overlay-content">
 
-                                                    <a href="~/UploadedProductImages/@Model.Image3" data-lightbox="fancybox" data-fancybox-group="gallery">
-                                                        <i class="icon-magnifier"></i>
-                                                    </a>
+                                                        <a href="~/UploadedProductImages/@Model.Image3" data-lightbox="fancybox" data-fancybox-group="gallery">
+                                                            <i class="icon-magnifier"></i>
+                                                        </a>
+                                                    </div>
                                                 </div>
+                                                <img class="c-overlay-object img-responsive" src="~/UploadedProductImages/@Model.Image3" alt="@Model.Name" title="@Model.Name">
                                             </div>
-                                            <img class="c-overlay-object img-responsive" src="~/UploadedProductImages/@Model.Image3" alt="@Model.Name" title="@Model.Name">
+
                                         </div>
 
                                     </div>
-
-                                </div>
-                              }
+                                }
                                 @if (Model.Image4 != null)
                                 {
                                     <div class="col-md-6">
@@ -278,13 +278,16 @@
                                     <div class="c-content-tab-4 c-opt-3" role="tabpanel">
                                         <ul class="nav nav-justified" role="tablist">
                                             <li role="presentation" class="active">
-                                                <a href="#tab-31" role="tab" data-toggle="tab" class="c-font-15">Description</a>
+                                                <a href="#tab-31" role="tab" data-toggle="tab" class="c-font-15">Specifications</a>
                                             </li>
                                             <li role="presentation">
-                                                <a href="#tab-32" role="tab" data-toggle="tab" class="c-font-15">Specification</a>
+                                                <a href="#tab-32" role="tab" data-toggle="tab" class="c-font-15">Description</a>
                                             </li>
                                             <li role="presentation">
                                                 <a href="#tab-33" role="tab" data-toggle="tab" class="c-font-15">Price Quote</a>
+                                            </li>
+                                            <li role="presentation">
+                                                <a href="#tab-34" role="tab" data-toggle="tab" class="c-font-15">Reviews</a>
                                             </li>
                                         </ul>
                                         <div class="tab-content">
@@ -295,11 +298,11 @@
 
                                                         </div>
                                                         <div class="col-sm-11 col-xs-11">
-                                                            <h4 class="c-font-20">Description</h4>
+                                                            <h4 class="c-font-20">Specifications</h4>
                                                             <p class="c-font-15">
 
 
-                                                            @Model.Description    
+                                                                @Model.Specifications
                                                             </p>
                                                         </div>
 
@@ -374,28 +377,7 @@
 
                                                         </div>
                                                         <div class="col-sm-11 col-xs-10">
-                                                            <h4 class="c-font-20">Specifications</h4>
-                                                            <p class="c-font-15">
-                                                                High Quality and Low Price
-                                                            </p>
-                                                            <p class="c-font-15">
-                                                                Custom Sizes / Finish
-                                                            </p>
-                                                            <p class="c-font-15">
-                                                                Efficient Delivery Time
-                                                            </p>
-                                                            <p class="c-font-15">
-                                                                Rush Delivery Available
-                                                            </p>
-                                                            <p class="c-font-15">
-                                                                High End Professional Printing
-                                                            </p>
-                                                            <p class="c-font-15">
-                                                                Manufacturer
-                                                            </p>
-                                                            <p class="c-font-15">
-                                                                Excellent Customer Service
-                                                            </p>
+                                                            @Html.Raw(Model.Product_Description)
                                                         </div>
                                                     </li>
 
@@ -527,7 +509,31 @@
 
                                                 </ul>
                                             </div>
+                                            <div role="tabpanel" class="tab-pane fade" id="tab-34">
+                                                <ul class="c-tab-items">
+                                                    <li class="row">
+                                                        <div class="col-sm-1 col-xs-1">
 
+                                                        </div>
+                                                        <div class="col-sm-11 col-xs-10">
+                                                            <h4 class="c-font-20">Reviews</h4>
+                                                            <div class="panel">
+                                                                <div class="panel-heading">
+                                                                    John A.
+                                                                </div>
+                                                                <div class="panel-body">
+                                                                    <span class="glyphicon-star"></span>
+                                                                    <span class="fa-star"></span>
+                                                                    <span class="fa-star"></span>
+                                                                    <span class="fa-star"></span>
+                                                                    <span class="fa-star"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
 
 
 

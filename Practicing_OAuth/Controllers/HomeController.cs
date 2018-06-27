@@ -325,5 +325,30 @@ namespace Practicing_OAuth.Controllers
         {
             return View();
         }
+
+        [Authorize]
+        public List<Product> updateSlugs()
+        {
+            try
+            {
+                var productsList = db.Products.ToList();
+                foreach (var item in productsList)
+                {
+                    var productItem = db.Products.Find(item.Id);
+                    productItem.SlugURL = item.Name.Replace(" ", "_");
+                    productItem.SlugURL = productItem.SlugURL.Replace("-", "_");
+                    productItem.SlugURL = productItem.SlugURL.Replace("/", "_");
+                    productItem.SlugURL = productItem.SlugURL.Replace("\\", "_");
+                    productItem.SlugURL = productItem.SlugURL.ToLower();
+                    productItem.Specifications = productItem.Description;
+                    db.SaveChanges();
+                }
+                return db.Products.ToList();
+            }
+            catch
+            {
+                return db.Products.ToList();
+            }
+        }
     }
 }
