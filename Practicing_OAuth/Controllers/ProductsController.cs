@@ -406,6 +406,7 @@ namespace Practicing_OAuth.Controllers
             }
             base.Dispose(disposing);
         }
+        [AllowAnonymous]
         public ActionResult productsByCategoryType(int id, int? pageNo = 1, int? pageSize = 16)
         {
             if (ProductsList.Count == 0)
