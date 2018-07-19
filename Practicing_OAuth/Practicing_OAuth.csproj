@@ -236,6 +236,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PriceQuotesController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\ProductsReviewsController.cs" />
     <Compile Include="Controllers\UserPanelController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1691,6 +1692,12 @@
     <Content Include="Views\Products\AllProducts.cshtml" />
     <Content Include="Views\Products\NoResultFound.cshtml" />
     <Content Include="Views\Products\Item.cshtml" />
+    <Content Include="Views\ProductsReviews\Create.cshtml" />
+    <Content Include="Views\ProductsReviews\Delete.cshtml" />
+    <Content Include="Views\ProductsReviews\Details.cshtml" />
+    <Content Include="Views\ProductsReviews\Edit.cshtml" />
+    <Content Include="Views\ProductsReviews\Index.cshtml" />
+    <Content Include="Views\ProductsReviews\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="assets\AdminAssets\assets1\" />

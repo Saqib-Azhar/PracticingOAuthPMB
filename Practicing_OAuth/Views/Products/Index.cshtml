@@ -21,9 +21,9 @@
         @*<th>
             @Html.DisplayNameFor(model => model.SlugURL)
         </th>*@
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.Description)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.IsEnabled)
         </th>
@@ -62,17 +62,17 @@
         @*<td>
             @Html.DisplayFor(modelItem => item.SlugURL)
         </td>*@
-        <td>
-            @if (item.Description.Length > 25)
+        @*<td>
+            @if (item.Product_Description.Length > 25)
             {
-                item.Description = item.Description.Substring(0, Math.Min(item.Description.Length, 25)) + "...";
-                @Html.DisplayFor(modelItem => item.Description)
+                item.Description = item.Product_Description.Substring(0, Math.Min(item.Description.Length, 25)) + "...";
+                @Html.DisplayFor(modelItem => item.Product_Description)
             }
             else
             {
                 @Html.DisplayFor(modelItem => item.Description)
             }
-        </td>
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.IsEnabled)
         </td>

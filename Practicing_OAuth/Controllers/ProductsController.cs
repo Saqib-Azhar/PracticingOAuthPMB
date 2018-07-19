@@ -23,6 +23,7 @@ namespace Practicing_OAuth.Controllers
         private Practicing_OAuthEntities db = new Practicing_OAuthEntities();
         private static List<Product> ProductsList = new List<Product>();
         private static searchClass searchObjectsList = new searchClass();
+        private static Product prodObjToEdit = new Product();
 
         [Authorize(Roles = "Admin")]
         // GET: Products
@@ -240,6 +241,7 @@ namespace Practicing_OAuth.Controllers
                 return HttpNotFound();
             }
             ViewBag.CategoryId = new SelectList(db.Categories, "Id", "CategoryName", product.CategoryId);
+            prodObjToEdit = product;
             return View(product);
         }
         [Authorize(Roles = "Admin")]
@@ -248,8 +250,118 @@ namespace Practicing_OAuth.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Price,SlugURL,Description,IsEnabled,Image1,Image2,Image3,Image4,Image5,UploadedDate,CategoryId,Product_Description,Specifications")] Product product)
+        public ActionResult Edit([Bind(Include = "Id,Name,Price,SlugURL,Description,IsEnabled,UploadedDate,CategoryId,Product_Description,Specifications")] Product product, HttpPostedFileBase Image1, HttpPostedFileBase Image2, HttpPostedFileBase Image3, HttpPostedFileBase Image4, HttpPostedFileBase Image5)
         {
+            if (Image1 != null)
+            {
+                string pic = System.IO.Path.GetFileName(Image1.FileName);
+                string path = System.IO.Path.Combine(
+                                       Server.MapPath("~/UploadedProductImages"), pic);
+                // file is uploaded
+                Image1.SaveAs(path);
+
+                // save the image path path to the database or you can send image 
+                // directly to database
+                // in-case if you want to store byte[] ie. for DB
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    Image1.InputStream.CopyTo(ms);
+                    byte[] array = ms.GetBuffer();
+                }
+                product.Image1 = Image1.FileName;
+
+            }
+            if (Image2 != null)
+            {
+                string pic = System.IO.Path.GetFileName(Image2.FileName);
+                string path = System.IO.Path.Combine(
+                                       Server.MapPath("~/UploadedProductImages"), pic);
+                // Image2 is uploaded
+                Image2.SaveAs(path);
+
+                // save the image path path to the database or you can send image 
+                // directly to database
+                // in-case if you want to store byte[] ie. for DB
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    Image2.InputStream.CopyTo(ms);
+                    byte[] array = ms.GetBuffer();
+                }
+                product.Image2 = Image2.FileName;
+
+            }
+            if (Image3 != null)
+            {
+                string pic = System.IO.Path.GetFileName(Image3.FileName);
+                string path = System.IO.Path.Combine(
+                                       Server.MapPath("~/UploadedProductImages"), pic);
+                // Image3 is uploaded
+                Image3.SaveAs(path);
+
+                // save the image path path to the database or you can send image 
+                // directly to database
+                // in-case if you want to store byte[] ie. for DB
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    Image3.InputStream.CopyTo(ms);
+                    byte[] array = ms.GetBuffer();
+                }
+                product.Image3 = Image3.FileName;
+
+            }
+            if (Image4 != null)
+            {
+                string pic = System.IO.Path.GetFileName(Image4.FileName);
+                string path = System.IO.Path.Combine(
+                                       Server.MapPath("~/UploadedProductImages"), pic);
+                // Image4 is uploaded
+                Image4.SaveAs(path);
+
+                // save the image path path to the database or you can send image 
+                // directly to database
+                // in-case if you want to store byte[] ie. for DB
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    Image4.InputStream.CopyTo(ms);
+                    byte[] array = ms.GetBuffer();
+                }
+
+                product.Image4 = Image4.FileName;
+            }
+            if (Image5 != null)
+            {
+                string pic = System.IO.Path.GetFileName(Image5.FileName);
+                string path = System.IO.Path.Combine(
+                                       Server.MapPath("~/UploadedProductImages"), pic);
+                // Image5 is uploaded
+                Image5.SaveAs(path);
+
+                // save the image path path to the database or you can send image 
+                // directly to database
+                // in-case if you want to store byte[] ie. for DB
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    Image5.InputStream.CopyTo(ms);
+                    byte[] array = ms.GetBuffer();
+                }
+
+                product.Image5 = Image5.FileName;
+            }
+            if(Image1 == null && Image2 == null && Image3 == null &&Image4 == null && Image5 == null)
+            {
+                try
+                {
+                    product.Image1 = prodObjToEdit.Image1;
+                    product.Image2 = prodObjToEdit.Image2;
+                    product.Image3 = prodObjToEdit.Image3;
+                    product.Image4 = prodObjToEdit.Image4;
+                    product.Image5 = prodObjToEdit.Image5;
+                }
+                catch (Exception)
+                {
+                    
+                }
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(product).State = EntityState.Modified;
