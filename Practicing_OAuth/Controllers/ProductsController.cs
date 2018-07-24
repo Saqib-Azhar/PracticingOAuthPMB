@@ -91,6 +91,8 @@ namespace Practicing_OAuth.Controllers
             }
             catch (Exception ex)
             {
+                HomeController.infoMessage(ex.Message);
+                HomeController.writeErrorLog(ex);
                 return RedirectToAction("NoResultFound","Products",query);
             }
         }
@@ -357,9 +359,11 @@ namespace Practicing_OAuth.Controllers
                     product.Image4 = prodObjToEdit.Image4;
                     product.Image5 = prodObjToEdit.Image5;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    
+
+                    HomeController.infoMessage(ex.Message);
+                    HomeController.writeErrorLog(ex);
                 }
             }
             if (ModelState.IsValid)
@@ -409,26 +413,59 @@ namespace Practicing_OAuth.Controllers
         [AllowAnonymous]
         public ActionResult productsByCategoryType(int id, int? pageNo = 1, int? pageSize = 16)
         {
-            if (ProductsList.Count == 0)
+            try
             {
-                var products = db.Products.ToList();
-                ProductsList = products;
+                if (ProductsList.Count == 0)
+                {
+                    var products = db.Products.ToList();
+                    ProductsList = products;
+                }
+                ViewBag.Id = id;
+                var ProdSubList = ProductsList.Where(s => s.Category.CategoryTypeId == id && s.IsEnabled == true);
+                return View(ProdSubList.ToPagedList(Convert.ToInt32(pageNo), Convert.ToInt32(pageSize)));
+
             }
-            ViewBag.Id = id;
-            var ProdSubList = ProductsList.Where(s => s.Category.CategoryTypeId == id && s.IsEnabled == true);
-            return View(ProdSubList.ToPagedList(Convert.ToInt32(pageNo), Convert.ToInt32(pageSize)));
+            catch (Exception ex)
+            {
+                HomeController.infoMessage(ex.Message);
+                HomeController.writeErrorLog(ex);
+                if (ProductsList.Count == 0)
+                {
+                    var products = db.Products.ToList();
+                    ProductsList = products;
+                }
+                ViewBag.Id = id;
+                var ProdSubList = ProductsList.Where(s => s.Category.CategoryTypeId == id && s.IsEnabled == true);
+                return View(ProdSubList.ToPagedList(Convert.ToInt32(pageNo), Convert.ToInt32(pageSize)));
+            }
 
         }
         public ActionResult productsByCategory(int id, int? pageNo = 1, int? pageSize = 16)
         {
-            if (ProductsList.Count == 0)
+            try
             {
-                var products = db.Products.ToList();
-                ProductsList = products;
+                if (ProductsList.Count == 0)
+                {
+                    var products = db.Products.ToList();
+                    ProductsList = products;
+                }
+                ViewBag.Id = id;
+                var ProdSubList = ProductsList.Where(s => s.CategoryId == id && s.IsEnabled == true);
+                return View(ProdSubList.ToPagedList(Convert.ToInt32(pageNo), Convert.ToInt32(pageSize)));
             }
-            ViewBag.Id = id;
-            var ProdSubList = ProductsList.Where(s => s.CategoryId == id && s.IsEnabled == true);
-            return View(ProdSubList.ToPagedList(Convert.ToInt32(pageNo), Convert.ToInt32(pageSize)));
+            catch (Exception ex)
+            {
+                HomeController.infoMessage(ex.Message);
+                HomeController.writeErrorLog(ex);
+                if (ProductsList.Count == 0)
+                {
+                    var products = db.Products.ToList();
+                    ProductsList = products;
+                }
+                ViewBag.Id = id;
+                var ProdSubList = ProductsList.Where(s => s.CategoryId == id && s.IsEnabled == true);
+                return View(ProdSubList.ToPagedList(Convert.ToInt32(pageNo), Convert.ToInt32(pageSize)));
+            }
         }
 
         public ActionResult AllProducts(int? pageNo = 1,int? pageSize = 16)
@@ -462,8 +499,10 @@ namespace Practicing_OAuth.Controllers
                 int id = ProductId;
                 return RedirectToAction("Details", "Products", new { id });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                HomeController.infoMessage(ex.Message);
+                HomeController.writeErrorLog(ex);
 
                 var ProductId = Convert.ToInt32(fc["ProductId"]);
                 int id = ProductId;

@@ -30,7 +30,7 @@ namespace Practicing_OAuth.Controllers
             return View();
         }
 
-        
+
         public ActionResult Contact()
         {
             return View();
@@ -74,9 +74,12 @@ namespace Practicing_OAuth.Controllers
                 db.ContactUsDatas.Add(ContactUsObject);
                 db.SaveChanges();
             }
-            catch(Exception ex)
-            { }
-          
+            catch (Exception ex)
+            {
+                infoMessage(ex.Message);
+                writeErrorLog(ex);
+            }
+
 
 
             var fromAddress = new MailAddress(SenderEmailId, "Contact Message By: " + Name);
@@ -196,8 +199,11 @@ namespace Practicing_OAuth.Controllers
                     db.SaveChanges();
                 }
                 catch (Exception ex)
-                { }
-                
+                {
+                    infoMessage(ex.Message);
+                    writeErrorLog(ex);
+                }
+
 
 
                 var fromAddress = new MailAddress(SenderEmailId, "Quote Request: " + Name);
@@ -316,6 +322,8 @@ namespace Practicing_OAuth.Controllers
             }
             catch (Exception ex)
             {
+                infoMessage(ex.Message);
+                writeErrorLog(ex);
                 return RedirectToAction("Error");
                 //return Json("Something Went Wrong!", JsonRequestBehavior.AllowGet);
             }
@@ -350,5 +358,178 @@ namespace Practicing_OAuth.Controllers
                 return db.Products.ToList();
             }
         }
+
+
+
+
+        [AllowAnonymous]
+        public ActionResult PaperWorkPlan(FormCollection fc, HttpPostedFileBase FormFile)
+        {
+            var Url = fc["urlField"];
+            try
+            {
+                var Carrier = fc["Carrier"];
+                var Trailer = fc["Trailer"];
+                var AreasOfOperation = fc["AreasOfOperation"];
+                var LiabilityInCargoInsurance = fc["LiabilityInCargoInsurance"];
+                var FreightInvoices = fc["FreightInvoices"];
+                var NoOfTrucksInFleet = fc["NoOfTrucksInFleet"];
+                var SafetyRating = fc["SafetyRating"];
+                var NoOfCompanyTrucks = fc["NoOfCompanyTrucks"];
+                var MinRatePerMile = fc["MinRatePerMile"];
+                var MaxPickAmount = fc["MaxPickAmount"];
+                var MaxDropsAmount = fc["MaxDropsAmount"];
+                var HazmatCertified = fc["HazmatCertified"];
+                var ScacCode = fc["ScacCode"];
+                var TwicCard = fc["TwicCard"];
+                var TruckNo = fc["TruckNo"];
+                var TrailerNo = fc["TrailerNo"];
+                var TrailerType = fc["TrailerType"];
+                var MaxWeight = fc["MaxWeight"];
+                var FirstName = fc["FirstName"];
+                var LastName = fc["LastName"];
+                var Company = fc["Company"];
+                var MCNo = fc["MCNo"];
+                var FAX = fc["FAX"];
+                var YearsInBusiness = fc["YearsInBusiness"];
+                var EMAIL = fc["EMAIL"];
+                var PHONE = fc["PHONE"];
+
+
+
+                var fromAddress = new MailAddress(SenderEmailId, "Contact Message By: " + FirstName + " " + LastName);
+                var toAddress = new MailAddress("info@premier-dispatch.com", "Premium Dispatch Services LLC");
+                string fromPassword = SenderEmailPassword;
+                string subject = "Premium Dispatch Services LLC Form Submission";
+                string body = "Carrier: " + Carrier + "<br>Trailer: " + Trailer + "<br>" + "Areas Of Operation: "
+                    + AreasOfOperation + "<br>" + "Liability In Cargo Insurance: " + LiabilityInCargoInsurance + "<br>Safety Rating: " + SafetyRating
+                    + "<br>No Of Company Trucks: " + NoOfCompanyTrucks
+                    + "<br>Min Rate Per Mile: " + MinRatePerMile
+                    + "<br>Max Pick Amount: " + MaxPickAmount
+                    + "<br>Hazmat Certified: " + HazmatCertified
+                    + "<br>Scac Code: " + ScacCode
+                    + "<br>Twic Card: " + TwicCard
+                    + "<br>Truck No: " + TruckNo
+                    + "<br>Trailer Type: " + TrailerType
+                    + "<br>Max Weight: " + MaxWeight
+                    + "<br>First Name: " + FirstName
+                    + "<br>Last Name: " + LastName
+                    + "<br>MCNo: " + MCNo
+                    + "<br>FAX: " + FAX
+                    + "<br>YearsInBusiness: " + YearsInBusiness
+                    + "<br>EMAIL: " + EMAIL
+                    + "<br>PHONE: " + PHONE
+                    + "<br>Company: " + Company;
+
+                var smtp = new SmtpClient
+                {
+                    Host = SenderEmailHost,
+                    Port = SenderEmailPort,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword),
+                    Timeout = 20000
+                };
+                using (var message = new MailMessage(fromAddress, toAddress)
+                {
+                    IsBodyHtml = true,
+                    Subject = subject,
+                    Body = body,
+
+                })
+                {
+                    //message.Bcc.Add("support@printmybox.com");
+                    smtp.Send(message);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                infoMessage(ex.Message);
+                writeErrorLog(ex);
+
+            }
+            return new RedirectResult(Url);
+        }
+
+        public static void infoMessage(string _message)
+        {
+            StreamWriter sw = null;
+            try
+            {
+                sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + "\\LogFile.txt", true);
+                sw.WriteLine(DateTime.Now.ToString() + " " + _message);
+                sw.Flush();
+                sw.Close();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public static void writeErrorLog(Exception ex)
+        {
+            StreamWriter sw = null;
+            try
+            {
+                sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + "\\LogFile.txt", true);
+                sw.WriteLine(DateTime.Now.ToString() + " " + ex.Source.ToString().Trim() + " " + ex.Message.ToString().Trim());
+                sw.Flush();
+                sw.Close();
+            }
+            catch (Exception exp)
+            {
+
+                throw exp;
+            }
+        }
+
+        public ActionResult CustomPlan(FormCollection fc)
+        {
+            var Url = fc["urlField"];
+            try
+            {
+                var Name = fc["Name"];
+                var Email = fc["Email"];
+                var Message = fc["Message"];
+                var fromAddress = new MailAddress(SenderEmailId, "Contact Message By: " + Name);
+                var toAddress = new MailAddress("info@premier-dispatch.com", "Premium Dispatch Services LLC");
+                string fromPassword = SenderEmailPassword;
+                string subject = "Premium Dispatch Services LLC Form Submission";
+                string body = "Name: " + Name + "<br>Email: " + Email + "<br>" + "Message: " + Message;
+                    
+
+                var smtp = new SmtpClient
+                {
+                    Host = SenderEmailHost,
+                    Port = SenderEmailPort,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword),
+                    Timeout = 20000
+                };
+                using (var message = new MailMessage(fromAddress, toAddress)
+                {
+                    IsBodyHtml = true,
+                    Subject = subject,
+                    Body = body,
+
+                })
+                {
+                    //message.Bcc.Add("support@printmybox.com");
+                    smtp.Send(message);
+                }
+            }
+            catch (Exception ex)
+            {
+                infoMessage(ex.Message);
+                writeErrorLog(ex);
+
+            }
+            return new RedirectResult(Url);
+        }
+
+
     }
 }
