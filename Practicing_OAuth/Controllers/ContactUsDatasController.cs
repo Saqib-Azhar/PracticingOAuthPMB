@@ -18,7 +18,18 @@ namespace Practicing_OAuth.Controllers
         // GET: ContactUsDatas
         public ActionResult Index()
         {
-            return View(db.ContactUsDatas.Where(s => s.IsDeleted == false).ToList());
+            List<ContactUsData> contactData;
+            try
+            {
+                contactData = db.ContactUsDatas.Where(s => s.IsDeleted == false).ToList();
+            }
+            catch (Exception ex)
+            {
+                HomeController.infoMessage(ex.Message);
+                HomeController.writeErrorLog(ex);
+                contactData = db.ContactUsDatas.Where(s => s.IsDeleted == false).ToList();
+            }
+            return View(contactData);
         }
 
         // GET: ContactUsDatas/Details/5
@@ -102,9 +113,19 @@ namespace Practicing_OAuth.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ContactUsData contactUsData = db.ContactUsDatas.Find(id);
-            if (contactUsData == null)
+            try
             {
-                return HttpNotFound();
+                if (contactUsData == null)
+                {
+                    return HttpNotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                HomeController.infoMessage(ex.Message);
+                HomeController.writeErrorLog(ex);
+                throw;
             }
             return View(contactUsData);
         }
@@ -115,16 +136,40 @@ namespace Practicing_OAuth.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             ContactUsData contactUsData = db.ContactUsDatas.Find(id);
-            db.ContactUsDatas.Remove(contactUsData);
-            db.SaveChanges();
+            try
+            {
+                db.ContactUsDatas.Remove(contactUsData);
+                db.SaveChanges();
+
+            }
+            catch (Exception ex)
+            {
+
+                db.ContactUsDatas.Remove(contactUsData);
+                db.SaveChanges();
+                HomeController.infoMessage(ex.Message);
+                HomeController.writeErrorLog(ex);
+                throw;
+            }
             return RedirectToAction("Index");
         }
 
         public ActionResult TemporaryDelete(int? id)
         {
             ContactUsData contactUsData = db.ContactUsDatas.Find(id);
-            contactUsData.IsDeleted = true;
-            db.SaveChanges();
+            
+            try
+            {
+                contactUsData.IsDeleted = true;
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+                HomeController.infoMessage(ex.Message);
+                HomeController.writeErrorLog(ex);
+                throw;
+            }
             return RedirectToAction("Index");
         }
         protected override void Dispose(bool disposing)

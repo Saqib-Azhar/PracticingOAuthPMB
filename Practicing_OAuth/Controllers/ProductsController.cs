@@ -436,7 +436,7 @@ namespace Practicing_OAuth.Controllers
                 }
                 ViewBag.Id = id;
                 var ProdSubList = ProductsList.Where(s => s.Category.CategoryTypeId == id && s.IsEnabled == true);
-                return View(ProdSubList.ToPagedList(Convert.ToInt32(pageNo), Convert.ToInt32(pageSize)));
+                return View(ProdSubList.ToPagedList(Convert.ToInt32(pageNo), Convert.ToInt32(pageSize))); 
             }
 
         }

@@ -71,7 +71,7 @@
                 <a href="/ContactUsDatas/Details/@item.Id"><b>@Html.DisplayFor(modelItem => item.PhoneNumber)</b></a>
             </td>
             <td>
-                @if (item.Message.Count() > 10)
+                @if (item.Message != null && item.Message.Count() > 10)
                 {
                     item.Message = item.Message.Substring(0, 10) + "...";
                 }
