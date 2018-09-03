@@ -19,9 +19,9 @@ namespace Practicing_OAuth
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
             routes.MapRoute(
-                name: "Default1",
+                name: "Products",
                 url: "{controller}/{action}/{slugURL}",
-                defaults: new { controller = "Products", action = "Item"}
+                defaults: new { controller = "Products", action = "Item", slugURL = UrlParameter.Optional }
             );
         }
     }

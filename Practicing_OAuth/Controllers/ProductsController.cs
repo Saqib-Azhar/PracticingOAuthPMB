@@ -48,21 +48,22 @@ namespace Practicing_OAuth.Controllers
             }
 
             //var product = db.Products.Find(id);
-            return RedirectToAction("Item", "Products", new { product.SlugURL });
-        
-      
+          //  return Redirect(Url.Action("Item","Products")+"?slugURL=" + product.SlugURL);// "Item", "Products", new { product.SlugURL });
+            return RedirectToAction("Item", "Products", new { id = product.SlugURL });
+
+
         }
         //[AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
-        //[Route("Products/Product/{slugURL}")]
-        public ActionResult Item(string slugURL)
+        [Route("Products/Item/{id}")]
+        public ActionResult Item(string id)
         {
 
-            if (slugURL == null)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Product product = db.Products.FirstOrDefault(s => s.SlugURL == slugURL);
+            Product product = db.Products.FirstOrDefault(s => s.SlugURL == id);
             if (product == null)
             {
                 return HttpNotFound();

@@ -1597,7 +1597,7 @@
     <Content Include="Models\Practicing_OAuth.edmx.diagram">
       <DependentUpon>Practicing_OAuth.edmx</DependentUpon>
     </Content>
-    <None Include="Properties\PublishProfiles\test_version_pmb24 june.pubxml" />
+    <None Include="Properties\PublishProfiles\ChatIntegrated3sept.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

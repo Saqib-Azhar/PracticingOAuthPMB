@@ -31,7 +31,7 @@
 
 @foreach (var item in Model)
 {
-    if (item.Seen == true)
+    if (item != null &&  item.Seen == true)
     {
         <tr>
             <td>
@@ -44,7 +44,7 @@
                 <a href="/ContactUsDatas/Details/@item.Id">@Html.DisplayFor(modelItem => item.PhoneNumber)</a>
             </td>
             <td>
-                @if (item.Message.Count() > 10)
+                @if (item.Message != null && item.Message.Count() > 10)
                 {
                     item.Message = item.Message.Substring(0, 10) + "...";
                 }
