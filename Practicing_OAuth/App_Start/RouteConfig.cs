@@ -14,14 +14,14 @@ namespace Practicing_OAuth
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "Products",
+                url: "Products/{id}",
+                defaults: new { controller = "Products", action = "Item", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
-            routes.MapRoute(
-                name: "Products",
-                url: "{controller}/{action}/{slugURL}",
-                defaults: new { controller = "Products", action = "Item", slugURL = UrlParameter.Optional }
             );
         }
     }
