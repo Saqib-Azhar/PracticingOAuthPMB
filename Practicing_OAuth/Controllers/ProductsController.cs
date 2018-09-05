@@ -54,13 +54,13 @@ namespace Practicing_OAuth.Controllers
 
         }
         //[AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
-        [Route("Products/Item/{id}")]
+        [Route("{id}/")]
         public ActionResult Item(string id)
         {
 
-            if (id == null)
+            if (id == null || id == "")
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return Redirect("/Home/Index");
             }
 
             Product product = db.Products.FirstOrDefault(s => s.SlugURL == id);

@@ -12,10 +12,10 @@ namespace Practicing_OAuth
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
+           
             routes.MapRoute(
                 name: "Products",
-                url: "Products/{id}",
+                url: "{id}/",
                 defaults: new { controller = "Products", action = "Item", id = UrlParameter.Optional }
             );
             routes.MapRoute(
@@ -25,4 +25,5 @@ namespace Practicing_OAuth
             );
         }
     }
+  
 }
