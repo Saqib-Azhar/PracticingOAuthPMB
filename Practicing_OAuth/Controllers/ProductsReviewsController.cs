@@ -117,7 +117,7 @@ namespace Practicing_OAuth.Controllers
             ProductsReview productsReview = db.ProductsReviews.Find(id);
             db.ProductsReviews.Remove(productsReview);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return Redirect("/ProductsReviews/Index");
         }
 
         protected override void Dispose(bool disposing)

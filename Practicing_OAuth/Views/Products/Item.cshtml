@@ -523,10 +523,16 @@
                                                                 <div class="panel">
                                                                     <div class="panel-heading">
                                                                         <div class="row">
-                                                                            <div class="col-md-6">
+                                                                            <div class="col-md-4">
                                                                                 <b>Reviewer: </b>@item.ReviewerName
                                                                             </div>
-                                                                            <div class="col-md-6" style="text-align:right">
+                                                                            <div class="col-md-4">
+                                                                                @for (int a = 0; a < item.Rating; a++)
+                                                                                {
+                                                                                    <span class="fa fa-star-o"></span>
+                                                                                }
+                                                                            </div>
+                                                                            <div class="col-md-4" style="text-align:right">
                                                                                 <b style="text-align:right">@item.CreatedAt</b> 
                                                                             </div>
                                                                         </div> 
