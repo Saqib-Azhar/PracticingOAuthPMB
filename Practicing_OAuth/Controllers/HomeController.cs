@@ -14,6 +14,7 @@ using Practicing_OAuth.Models;
 
 namespace Practicing_OAuth.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
         private static string SenderEmailId = WebConfigurationManager.AppSettings["DefaultEmailId"];

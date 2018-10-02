@@ -13,6 +13,7 @@ using PagedList.Mvc;
 
 namespace Practicing_OAuth.Controllers
 {
+    [RequireHttps]
     public class ProductsController : Controller
     {
         class searchClass

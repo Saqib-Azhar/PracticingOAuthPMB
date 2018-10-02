@@ -18,7 +18,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44352</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -1597,6 +1597,7 @@
     <Content Include="Models\Practicing_OAuth.edmx.diagram">
       <DependentUpon>Practicing_OAuth.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\ChatIntegrated2Oct.pubxml" />
     <None Include="Properties\PublishProfiles\ChatIntegrated3sept.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1743,7 +1744,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>8486</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:8486/</IISUrl>
+          <IISUrl>https://localhost:44352/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
