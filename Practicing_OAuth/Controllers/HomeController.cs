@@ -22,15 +22,21 @@ namespace Practicing_OAuth.Controllers
         private static int SenderEmailPort = Convert.ToInt32(WebConfigurationManager.AppSettings["DefaultEmailPort"]);
         private static string SenderEmailHost = WebConfigurationManager.AppSettings["DefaultEmailHost"];
         private Practicing_OAuthEntities db = new Practicing_OAuthEntities();
+
         public ActionResult Index()
+        {
+            return RedirectToAction("IndexView");
+        }
+
+        [Route("Index")]
+        public ActionResult IndexView()
         {
             var ProductsList = db.Products.ToList();
             ViewBag.ProductsList = ProductsList;
             ViewBag.CategoriesList = db.Categories.ToList();
             ViewBag.CategoryTypesList = db.CategoryTypes.ToList();
-            return View();
+            return View("Index");
         }
-
 
         public ActionResult Contact()
         {
@@ -531,6 +537,52 @@ namespace Practicing_OAuth.Controllers
             return new RedirectResult(Url);
         }
 
+        public ActionResult SubmitPremiumDispatchAgreement(FormCollection fc)
+        {
+                var Url = fc["urlField"];
+            try
+            {
+                var fromAddress = new MailAddress(SenderEmailId, "Agreement");
+                var toAddress = new MailAddress("info@premier-dispatch.com", "Premium Dispatch Services LLC");
+                string fromPassword = SenderEmailPassword;
+                string subject = "Premium Dispatch Services LLC Form Submission";
+
+
+                var html = "";
+                foreach (var key in fc.Keys)
+                {
+                    html = html + key.ToString() + ": " + fc[key.ToString()];
+                }
+
+                string body = html;
+                var smtp = new SmtpClient
+                {
+                    Host = SenderEmailHost,
+                    Port = SenderEmailPort,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword),
+                    Timeout = 20000
+                };
+                using (var message = new MailMessage(fromAddress, toAddress)
+                {
+                    IsBodyHtml = true,
+                    Subject = subject,
+                    Body = body,
+
+                })
+                {
+                    //message.Bcc.Add("support@printmybox.com");
+                    smtp.Send(message);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return new RedirectResult(Url);
+        }
 
     }
 }

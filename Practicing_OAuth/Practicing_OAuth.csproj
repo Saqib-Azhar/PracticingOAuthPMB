@@ -298,6 +298,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Agreement.html" />
     <Content Include="ajax\2col-portfolio\load-more.html" />
     <Content Include="ajax\4col-portfolio\load-more.html" />
     <Content Include="ajax\extended-portfolio\load-more.html" />

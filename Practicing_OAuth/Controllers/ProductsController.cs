@@ -10,6 +10,7 @@ using Practicing_OAuth.Models;
 using System.IO;
 using PagedList;
 using PagedList.Mvc;
+using System.Text;
 
 namespace Practicing_OAuth.Controllers
 {
@@ -50,15 +51,15 @@ namespace Practicing_OAuth.Controllers
 
             //var product = db.Products.Find(id);
           //  return Redirect(Url.Action("Item","Products")+"?slugURL=" + product.SlugURL);// "Item", "Products", new { product.SlugURL });
-            return RedirectToAction("Item", "Products", new { id = product.SlugURL });
+            return RedirectToAction("Item", "Products", new { prodName = product.SlugURL });
 
 
         }
         //[AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
-        [Route("{id}/")]
-        public ActionResult Item(string id)
+        [Route("{prodName}/")]
+        public ActionResult Item(string prodName)
         {
-
+            string id = prodName;
             if (id == null || id == "")
             {
                 return Redirect("/Home/Index");
@@ -413,7 +414,7 @@ namespace Practicing_OAuth.Controllers
             base.Dispose(disposing);
         }
         [AllowAnonymous]
-        public ActionResult productsByCategoryType(int id, int? pageNo = 1, int? pageSize = 16)
+        public ActionResult productsByCategoryType(int? id, int? pageNo = 1, int? pageSize = 16)
         {
             try
             {
@@ -442,8 +443,26 @@ namespace Practicing_OAuth.Controllers
             }
 
         }
+        static int? categoryWisePageNo = 1;
+        static int? categoryWisePageSize = 16;
+        static int? categoryWiseId = -1;
         public ActionResult productsByCategory(int id, int? pageNo = 1, int? pageSize = 16)
         {
+            categoryWisePageNo = pageNo;
+            categoryWisePageSize = pageSize;
+            categoryWiseId = id;
+            var category = db.Categories.FirstOrDefault(s => s.Id == id);
+            var categoryName = category.CategoryName.Replace(' ', '_');
+            StringBuilder builder = new StringBuilder(categoryName);
+            builder.Replace("&", "_And_");
+            categoryName = builder.ToString();
+            return RedirectToAction("Category", "Products", new { category = categoryName });
+        }
+
+        [Route("category/{category}/")]
+        public ActionResult Category(string category)
+        {
+
             try
             {
                 if (ProductsList.Count == 0)
@@ -451,9 +470,19 @@ namespace Practicing_OAuth.Controllers
                     var products = db.Products.ToList();
                     ProductsList = products;
                 }
-                ViewBag.Id = id;
-                var ProdSubList = ProductsList.Where(s => s.CategoryId == id && s.IsEnabled == true);
-                return View(ProdSubList.ToPagedList(Convert.ToInt32(pageNo), Convert.ToInt32(pageSize)));
+                if(categoryWiseId == -1)
+                {
+
+                    StringBuilder builder = new StringBuilder(category);
+                    builder.Replace("_And_", "&");
+                    category = builder.ToString();
+                    category = category.Replace('_', ' ');
+                    var categoryObj = db.Categories.FirstOrDefault(s => s.CategoryName == category);
+                    categoryWiseId = categoryObj.Id;
+                }
+                ViewBag.Id = categoryWiseId;
+                var ProdSubList = ProductsList.Where(s => s.CategoryId == categoryWiseId && s.IsEnabled == true);
+                return View("productsByCategory",ProdSubList.ToPagedList(Convert.ToInt32(categoryWisePageNo), Convert.ToInt32(categoryWisePageSize)));
             }
             catch (Exception ex)
             {
@@ -464,9 +493,19 @@ namespace Practicing_OAuth.Controllers
                     var products = db.Products.ToList();
                     ProductsList = products;
                 }
-                ViewBag.Id = id;
-                var ProdSubList = ProductsList.Where(s => s.CategoryId == id && s.IsEnabled == true);
-                return View(ProdSubList.ToPagedList(Convert.ToInt32(pageNo), Convert.ToInt32(pageSize)));
+                if (categoryWiseId == -1)
+                {
+
+                    StringBuilder builder = new StringBuilder(category);
+                    builder.Replace("_And_", "&");
+                    category = builder.ToString();
+                    category = category.Replace('_', ' ');
+                    var categoryObj = db.Categories.FirstOrDefault(s => s.CategoryName == category);
+                    categoryWiseId = categoryObj.Id;
+                }
+                ViewBag.Id = categoryWiseId;
+                var ProdSubList = ProductsList.Where(s => s.CategoryId == categoryWiseId && s.IsEnabled == true);
+                return View("productsByCategory", ProdSubList.ToPagedList(Convert.ToInt32(categoryWisePageNo), Convert.ToInt32(categoryWisePageSize)));
             }
         }
 
